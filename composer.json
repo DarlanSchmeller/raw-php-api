@@ -1,0 +1,15 @@
+{
+    "name": "dev/raw-php-api",
+    "autoload": {
+        "psr-4": {
+            "Dev\\RawPhpApi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Darlan Rodrigues Schmeller",
+            "email": "darlanschimeller@gmail.com"
+        }
+    ],
+    "require": {}
+}
