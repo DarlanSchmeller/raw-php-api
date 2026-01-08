@@ -26,7 +26,7 @@ class DatabaseConnector
     public function createDbConnection(): PDO
     {
         try {
-            $dsn = "mysql:host=$this->dbHost;dbname=$this->dbName;charset=utf8mb4";
+            $dsn = "mysql:host=$this->dbHost;port=$this->dbPort;dbname=$this->dbName;charset=utf8mb4";
             $dbConn = new PDO(
                 $dsn,
                 $this->dbUser,
