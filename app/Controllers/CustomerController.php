@@ -14,7 +14,9 @@ class CustomerController extends Controller
 
     public function show($customerId): void
     {
-        $query = $this->dbConn->query('SELECT * FROM customers WHERE id =' . escapeshellarg($customerId));
+        $query = $this->dbConn->prepare('SELECT * FROM customers WHERE id = :id');
+        $query->bindParam(':id', $customerId);
+        $data = $query->execute();
         $data = $query->fetchAll();
 
         $this->deliverResponse(200, $data);
