@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Database\DatabaseConnector;
+use PDO;
 
 class Controller {
     protected $dbConn;
