@@ -6,14 +6,15 @@ class Router
 {
     protected array $routes;
 
-    public function registerRoute(string $uri, $action): void
+    public function registerRoute($method, string $uri, $action): void
     {
-        [$controller, $method] = explode('@', $action);
+        [$controller, $controllerMethod] = explode('@', $action);
 
         $this->routes[] = [
+            'method' => strtoupper($method),
             'uri' => $uri,
             'controller' => $controller,
-            'method' => $method
+            'controllerMethod' => $controllerMethod
         ];
     }
 
@@ -24,32 +25,59 @@ class Router
         $pathSegments = explode('/', trim($requestPath, '/'));
 
         // Check if route exists
-        $route = $this->matchRoute($pathSegments);
+        [$route, $params] = $this->matchRoute($pathSegments);
         if (empty($route)) {
             http_response_code(404);
             exit();
         }
 
         $controller = 'App\\Controllers\\' . $route['controller'];
-        $controllerMethod = $route['method'];
+        $controllerMethod = $route['controllerMethod'];
         
         // Instantiate controller and execute method
         $controllerInstance = new $controller();
-        $controllerInstance->$controllerMethod();
+        $controllerInstance->$controllerMethod($params);
 
         return;
     }
 
     protected function matchRoute(array $pathSegments): ?array
     {
-        $uri = $pathSegments[0];
+        // Get incoming request data
+        $uri = $pathSegments[0] ?? null;
+        $params = $pathSegments[1] ?? null;
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        $fallbackRoute = null;
+        $routeWithParams = null;
 
         foreach ($this->routes as $route) {
-            if (trim($route['uri'], '/') === $uri) {
-                return $route;
-            };
+            // Early skip if method doesn't match
+            if ($method !== $route['method']) {
+                continue;
+            }
+
+            // Get parts of the registered url
+            $pagePath = explode('/', trim($route['uri'], '/'));
+            $pageURI = $pagePath[0] ?? null;
+            $expectsParams = isset($pagePath[1]);
+
+            if ($pageURI !== $uri) {
+                continue;
+            }
+            
+            if ($expectsParams) {
+                if (! empty($params)) {
+                    $routeWithParams = [$route, $params];
+                }
+
+                continue;
+            }
+
+            $fallbackRoute = [$route, null];
         }
 
-        return null;
+        // Get the most specific matched route
+        return $routeWithParams ?? $fallbackRoute;
     }
 }

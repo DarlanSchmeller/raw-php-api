@@ -15,7 +15,6 @@ class Controller {
 
     protected function deliverResponse($responseCode, $data = null): void
     {
-        header('Content-Type: application/json; charset=utf-8');
         http_response_code($responseCode);
 
         exit(json_encode($data, 0));
