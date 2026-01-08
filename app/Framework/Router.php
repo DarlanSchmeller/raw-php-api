@@ -17,7 +17,7 @@ class Router
         ];
     }
 
-    public function handleRequest()
+    public function handleRequest(): void
     {
         // Get the requested url parsed
         $requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);

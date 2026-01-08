@@ -13,7 +13,7 @@ class Controller {
         $this->dbConn = $dbConn->createDbConnection();
     }
 
-    protected function deliverResponse($responseCode, $data = null)
+    protected function deliverResponse($responseCode, $data = null): void
     {
         header('Content-Type: application/json; charset=utf-8');
         http_response_code($responseCode);

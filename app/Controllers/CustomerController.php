@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 class CustomerController extends Controller
 {
-    public function index()
+    public function index(): void
     {
         $query = $this->dbConn->query('SELECT * FROM customers');
         $data = $query->fetchAll();

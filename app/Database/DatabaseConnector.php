@@ -32,6 +32,7 @@ class DatabaseConnector
                 $this->dbUser,
                 $this->dbPassword,
             );
+            $dbConn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     
             return $dbConn;
         } catch (PDOException $e) {
