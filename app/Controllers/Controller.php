@@ -2,8 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Database\DatabaseConnector;
-use PDO;
+use Database\DatabaseConnector;
 
 class Controller {
     protected $dbConn;

@@ -2,7 +2,9 @@
     "name": "dev/raw-php-api",
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Database\\": "Database/",
+            "Framework\\": "Framework/"
         }
     },
     "authors": [

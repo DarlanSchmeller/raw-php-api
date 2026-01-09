@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Database\DatabaseConnector;
+use Database\DatabaseConnector;
 
 class Repository {
     protected $dbConn;
