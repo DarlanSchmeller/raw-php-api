@@ -2,6 +2,9 @@
 
 namespace App\Controllers;
 
+use Exception;
+use PDOException;
+
 class CustomerController extends Controller
 {
     public function index(): void
@@ -29,12 +32,22 @@ class CustomerController extends Controller
 
         // Decode the data into array
         $decodedData = json_decode($rawBody, true);
-        if (! isset($decodedData['values'])) {
+        if (! isset($decodedData)) {
             $this->deliverResponse(400, 'Request format not recognizable');
         }
 
-        // Get the data to create customer
-        [$first_name, $last_name, $email, $phone, $status] = $decodedData['values'];
+        $expectedKeys = ['first_name', 'last_name', 'email', 'phone', 'status'];
+
+        // Validate if keys are present
+        foreach ($expectedKeys as $expectedKey) {
+            if (! in_array($expectedKey, array_keys($decodedData))) {
+                $this->deliverResponse(400, 'Request format not recognizable');
+            }
+
+            if (empty($decodedData[$expectedKey])) {
+                $this->deliverResponse(400, 'The data for the following key is missing: ' . $expectedKey);
+            }
+        }
 
         // Build data to create a new customer
         $sql = 'INSERT INTO customers (first_name, last_name, email, phone, status)
@@ -42,11 +55,11 @@ class CustomerController extends Controller
         $query = $this->dbConn->prepare($sql);
 
         // Bind customer data to query string
-        $query->bindParam(':first_name', $first_name);
-        $query->bindParam(':last_name', $last_name);
-        $query->bindParam(':email', $email);
-        $query->bindParam(':phone', $phone);
-        $query->bindParam(':status', $status);
+        $query->bindParam(':first_name', $decodedData['first_name']);
+        $query->bindParam(':last_name', $decodedData['last_name']);
+        $query->bindParam(':email', $decodedData['email']);
+        $query->bindParam(':phone', $decodedData['phone']);
+        $query->bindParam(':status', $decodedData['status']);
 
         $result = $query->execute();
 
