@@ -1,7 +1,8 @@
 <?php
 
 // Register routes
-$router->registerRoute('GET', '/users', 'CustomerController@index');
-$router->registerRoute('GET', '/users/{id}', 'CustomerController@show');
-$router->registerRoute('POST', '/users', 'CustomerController@create');
-$router->registerRoute('DELETE', '/users/{id}', 'CustomerController@destroy');
+$router->registerRoute('GET', '/customers', 'CustomerController@index');
+$router->registerRoute('GET', '/customers/{id}', 'CustomerController@show');
+$router->registerRoute('POST', '/customers', 'CustomerController@create');
+$router->registerRoute('PUT', '/customers/{id}', 'CustomerController@update');
+$router->registerRoute('DELETE', '/customers/{id}', 'CustomerController@destroy');

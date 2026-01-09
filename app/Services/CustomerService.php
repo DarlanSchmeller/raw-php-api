@@ -32,12 +32,19 @@ class CustomerService
 
     }
 
+    public function update($customerId, $data): void
+    {
+        $this->validateData($data);
+        $this->customerRepository->updateCustomer((int) $customerId, $data);
+
+    }
+
     public function delete($customerId): void
     {
         $this->customerRepository->deleteCustomer((int) $customerId);
     }
     
-    public function validateData($decodedData): void
+    protected function validateData($decodedData): void
     {
         $expectedKeys = ['first_name', 'last_name', 'email', 'phone', 'status'];
 

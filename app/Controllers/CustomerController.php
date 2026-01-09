@@ -47,13 +47,32 @@ class CustomerController extends Controller
         }
     }
 
+    public function update($customerId): void
+    {
+        // Read raw JSON body from request
+        $rawBody = file_get_contents('php://input');
+
+        // Decode the data into array
+        $decodedData = json_decode($rawBody, true);
+        if (! is_array($decodedData)) {
+            $this->deliverResponse(400, 'Request format not recognizable');
+        }
+
+        try {
+            $this->customerService->update($customerId, $decodedData);
+            $this->deliverResponse(201, 'Customer updated successfuly!');
+        } catch (PDOException|Exception $e) {
+            $this->deliverResponse(400, 'There has been an error when attempting to update a customer: ' . $e->getMessage());
+        }
+    }
+
     public function destroy($customerId): void
     {
         try {
             $this->customerService->delete($customerId);
             $this->deliverResponse(204);
         } catch (PDOException|Exception $e) {
-            $this->deliverResponse(400, 'There has been an error when attempting to create a new customer: ' . $e->getMessage());
+            $this->deliverResponse(400, 'There has been an error when attempting to delete a customer: ' . $e->getMessage());
         }
     }
 }
