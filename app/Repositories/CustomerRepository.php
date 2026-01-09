@@ -3,6 +3,22 @@
 namespace App\Repositories;
 
 class CustomerRepository extends Repository {
+    public function getAllCustomers(): array
+    {
+        $query = $this->dbConn->query('SELECT * FROM customers');
+
+        return $query->fetchAll();
+    }
+
+    public function getCustomer($customerId): array
+    {
+        $query = $this->dbConn->prepare('SELECT * FROM customers WHERE id = :id');
+        $query->bindParam(':id', $customerId);
+        $query->execute();
+
+        return $query->fetchAll();
+    }
+
     public function createCustomer(array $data): bool
     {
         // Build data to create a new customer

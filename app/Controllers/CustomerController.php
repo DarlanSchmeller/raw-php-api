@@ -17,18 +17,13 @@ class CustomerController extends Controller
 
     public function index(): void
     {
-        $query = $this->dbConn->query('SELECT * FROM customers');
-        $data = $query->fetchAll();
-
+        $data = $this->customerService->listAllCustomers();
         $this->deliverResponse(200, $data);
     }
 
     public function show($customerId): void
     {
-        $query = $this->dbConn->prepare('SELECT * FROM customers WHERE id = :id');
-        $query->bindParam(':id', $customerId);
-        $data = $query->execute();
-        $data = $query->fetchAll();
+        $data = $this->customerService->listSingleCustomer($customerId);
 
         $this->deliverResponse(200, $data);
     }

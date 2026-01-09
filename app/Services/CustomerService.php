@@ -14,6 +14,17 @@ class CustomerService
         $this->customerRepository = new CustomerRepository;
     }
 
+    public function listAllCustomers(): array
+    {
+        return $this->customerRepository->getAllCustomers();
+    }
+
+    public function listSingleCustomer($customerId): array
+    {
+        return $this->customerRepository->getCustomer((int) $customerId);
+    }
+
+
     public function create($data): void
     {
         $this->validateData($data);
