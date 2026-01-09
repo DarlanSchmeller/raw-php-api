@@ -46,4 +46,14 @@ class CustomerController extends Controller
             $this->deliverResponse(400, 'There has been an error when attempting to create a new customer: ' . $e->getMessage());
         }
     }
+
+    public function destroy($customerId): void
+    {
+        try {
+            $this->customerService->delete($customerId);
+            $this->deliverResponse(204);
+        } catch (PDOException|Exception $e) {
+            $this->deliverResponse(400, 'There has been an error when attempting to create a new customer: ' . $e->getMessage());
+        }
+    }
 }

@@ -31,6 +31,11 @@ class CustomerService
         $this->customerRepository->createCustomer($data);
 
     }
+
+    public function delete($customerId): void
+    {
+        $this->customerRepository->deleteCustomer((int) $customerId);
+    }
     
     public function validateData($decodedData): void
     {

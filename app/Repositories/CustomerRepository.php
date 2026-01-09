@@ -10,7 +10,7 @@ class CustomerRepository extends Repository {
         return $query->fetchAll();
     }
 
-    public function getCustomer($customerId): array
+    public function getCustomer(int $customerId): array
     {
         $query = $this->dbConn->prepare('SELECT * FROM customers WHERE id = :id');
         $query->bindParam(':id', $customerId);
@@ -33,6 +33,15 @@ class CustomerRepository extends Repository {
         $query->bindParam(':phone', $data['phone']);
         $query->bindParam(':status', $data['status']);
 
+        return $query->execute();
+    }
+
+    public function deleteCustomer(int $customerId) {
+        $sql = 'DELETE FROM customers WHERE id = :id';
+        $query = $this->dbConn->prepare($sql);
+
+        $query->bindParam(':id', $customerId);
+      
         return $query->execute();
     }
 }

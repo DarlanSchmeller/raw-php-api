@@ -17,6 +17,9 @@ class Controller {
     {
         http_response_code($responseCode);
 
-        exit(json_encode($data, 0));
+        if (! empty($data)) {
+            exit(json_encode($data, 0));
+        }
+        exit();
     }
 }
