@@ -1,5 +1,5 @@
 {
-    "name": "dev/raw-php-api",
+    "name": "darlanschmeller/raw-php-api",
     "autoload": {
         "psr-4": {
             "App\\": "app/",
@@ -14,6 +14,6 @@
         }
     ],
     "require": {
-        "vlucas/phpdotenv": "^5.6"
+        "darlanschmeller/php-env-loader": "^1.0"
     }
 }

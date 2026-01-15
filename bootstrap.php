@@ -2,10 +2,10 @@
 
 require 'vendor/autoload.php';
 
-use Dotenv\Dotenv;
+use Src\EnvLoader;
 
 // Loads env variables into $_ENV superglobal
-$dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+$envLoader = new EnvLoader(__DIR__.'/.env');
+$envLoader->load();
 
 header('Content-Type: application/json; charset=utf-8');
